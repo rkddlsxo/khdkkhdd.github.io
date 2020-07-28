@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script>
+	
+	var numArray = [];
+	numArray[0] = Math.floor(Math.random() * 10);
+	do {
+	numArray[1] = Math.floor(Math.random() * 10);
+	} while(numArray[1] === numArray[0])
+	do {
+	numArray[2] = Math.floor(Math.random() * 10);
+	} while(numArray[2] === numArray[0] || numArray[2] === numArray[1])
+	do {
+	numArray[3] = Math.floor(Math.random() * 10);
+	} while(numArray[3] === numArray[0] || numArray[3] === numArray[1] || numArray[3] === numArray[2])
+
+	count=1;
+	
+	function guess()
+	{
+		answer=document.getElementById("user").value;
+			if(answer==""){        /*아무값도 입력 받지 못했을시*/
+				alert('숫자를 입력하세요');
+			}
+			
+			ball=0;
+			strike=0;
+			
+			if(answer==numArray.join(""))
+			{
+				document.getElementById("area").innerHTML="정답입니다.";
+			}
+			
+			else{                                /*정답이 아니면 else문*/
+				var ansArray=answer.split("");
+				for(var i in numArray){
+					if(numArray[i]==ansArray[i]){++strike}
+					}
+				ansArray.splice(0, 0, ansArray[3]);
+				for(var i in numArray){
+					if(numArray[i]==ansArray[i]){++ball}
+					}
+				ansArray.splice(0, 0, ansArray[3]);
+				for(var i in numArray){
+					if(numArray[i]==ansArray[i]){++ball}
+					}
+				ansArray.splice(0, 0, ansArray[3]);
+				for(var i in numArray){
+					if(numArray[i]==ansArray[i]){++ball}
+					}
+				document.getElementById("result").value="볼"+ball+"회, 스트라이크"+strike+"회 입니다.";
+			}
+
+			if(count==10){                    /*입력을 10회 초과로 시도하면*/
+				document.getElementById("btn").disabled=true;
+				document.getElementById("area").style.color="red";
+				document.getElementById("area").innerHTML="정답은 "+numArray.join("")+"입니다.";
+			}
+			document.getElementById("guesses").value=("시도한 횟수는"+(count++)+"번 입니다.");
+	}
+  </script>
+ </head>
+
+ <body>
+	<h2>숫자야구 게임</h2>
+	이 게임은 컴퓨터가 생성한 숫자를 맞추는 게임입니다. 숫자는 0000부터9999사이에 있습니다. <br/><br/>
+	입력한 숫자가 컴퓨터의 숫자와 일치하고 그 위치가 같을 때는 스트라이크, 숫자는 일치하지만 위치가 다를 때에는 볼입니다. <br/><br/>
+	도전 기회는 총 10번 주어집니다. <br/><br/>
+	(단, 각 자리 숫자는 중복되지 않습니다.) <br/><br/>
+	
+	예를 들어, 입력한 숫자는 216이고 컴퓨터가 생성한 숫자는 614일 때에는 '1볼(숫자 6) 1스트라이크(숫자 1)'입니다.<br/><br/>
+	
+	<form>
+		숫자 : 
+		<input type="text" id="user" size="4">
+		<input type="button" id="btn" value="확인" onclick="guess()">
+		추측횟수:
+		<input type="text" id="guesses" size="30">
+		볼/스트라이크 : 
+		<input type="text" id="result" size="16">
+	</form>
+
+	<div id="area"></div>
+ </body>
+
+</html>
